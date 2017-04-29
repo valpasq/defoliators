@@ -1,0 +1,122 @@
+# Example configuration file for YATSM line runner
+#
+# This configuration includes details about the dataset and how YATSM should
+# run
+
+# Version of config
+version: "0.6.0"
+
+dataset:
+    # Text file containing dates and images
+    input_file: "/projectnb/landsat/projects/Massachusetts/p012r031/p012r031_datefile_moths_paper.csv"
+    # Input date format
+    date_format: "%Y%j"
+    # Output location
+    output: "/projectnb/landsat/projects/Massachusetts/p012r031/images/YATSM_moths_paper/"
+    # Output file prefix (e.g., [prefix]_[line].npz)
+    output_prefix: "yatsm_r"
+    # Total number of bands
+    n_bands: 11
+    # Mask band (e.g., Fmask)
+    mask_band: 11
+    # List of integer values to mask within the mask band
+    mask_values: [2, 3, 4, 255]
+    # Valid range of non-mask band data
+    # specify 1 range for all bands, or specify ranges for each band
+    min_values: [0, 0, 0, 0, 0, 0, 0, 0, -23000, -23000, 0]
+    max_values: [10000, 10000, 10000, 10000, 10000, 10000, 10000, 23000, 23000, 23000, 255]
+    # Indices for multi-temporal cloud masking (indexed on 1)
+    green_band: 2
+    swir1_band: 5
+    # Use BIP image reader? If not, use GDAL to read in
+    use_bip_reader: False
+    # Directory location for caching dataset lines
+    cache_line_dir: "/projectnb/landsat/projects/Massachusetts/p012r031/images/cache_moths_paper/"
+
+# Parameters common to all timeseries analysis models within YATSM package
+YATSM:
+    algorithm: "CCDCesque"
+    prediction: "GLMNET_Lasso20"
+    design_matrix: "1 + x + harm(x, 1) + harm(x, 3)"
+    reverse: False
+    commission_alpha: 0.05
+    # Re-fit each segment, adding new coefficients & RMSE info to record
+    refit:
+        prefix: [ols]
+        prediction: [OLS]
+
+# Parameters for CCDCesque algorithm -- referenced by "algorithm" key in YATSM
+CCDCesque:
+    init:  # hyperparameters
+        consecutive: 7
+        threshold: 4.5
+        min_obs: 23
+        min_rmse: 150
+        test_indices: [2, 3, 4]
+        retrain_time: 365.25
+        screening: RLM
+        screening_crit: 400.0
+        slope_test: True
+        remove_noise: True
+        dynamic_rmse: True
+
+# Regression estimators
+LassoCV:
+    pickle: "/usr3/graduate/valpasq/Documents/yatsm_conda/yatsm/regression/pickles/sklearn_LassoCV_n50.pkl"
+
+Lasso20:
+    pickle: "/usr3/graduate/valpasq/Documents/yatsm_conda/yatsm/regression/pickles/sklearn_Lasso20.pkl"
+
+OLS:
+    pickle: "/usr3/graduate/valpasq/Documents/yatsm_conda/yatsm/regression/pickles/OLS.pkl"
+
+GLMNET_LassoCV:
+    pickle: "/usr3/graduate/valpasq/Documents/yatsm_conda/yatsm/regression/pickles/glmnet_LassoCV_n50.pkl"
+
+GLMNET_Lasso20:
+    pickle: "/usr3/graduate/valpasq/Documents/yatsm_conda/yatsm/regression/pickles/glmnet_Lasso20.pkl"
+
+RLM:
+    pickle: "/usr3/graduate/valpasq/Documents/yatsm_conda/yatsm/regression/pickles/rlm_maxiter10.pkl"
+
+# Section for phenology fitting
+phenology:
+    enable: True
+    init:
+        # Specification for dataset indices required for EVI based phenology monitoring
+        red_index: 2
+        nir_index: 3
+        blue_index: 0
+        # Scale factor for reflectance bands
+        scale: 0.0001
+        # You can also specify index of EVI if contained in dataset to override calculation
+        evi_index:
+        evi_scale:
+        # Number of years to group together when normalizing EVI to upper and lower percentiles
+        year_interval: 3
+        # Upper and lower percentiles of EVI used for max/min scaling
+        q_min: 10
+        q_max: 90
+
+# Section for segmentation
+segment:
+    # Segmentation image
+    segmentation:
+    # Resegmentation threshold (0 turns off resegmentation)
+    resegment_crit: 0
+    # Resegmentation size thresholds
+    resegment_minpix: 5
+    resegment_maxpix: 50
+
+# Section for training and classification
+classification:
+    # Training data file
+    training_image: "/home/ceholden/Documents/yatsm/examples/training_data.gtif"
+    # Training data masked values
+    roi_mask_values: [0, 255]
+    # Date range
+    training_start: "1999-01-01"
+    training_end: "2001-01-01"
+    training_date_format: "%Y-%m-%d"
+    # Cache X feature input and y labels for training data image into file?
+    cache_training:
