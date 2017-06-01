@@ -19,7 +19,7 @@ do
 
 done
 
-r_file=$(find . -name 'p013r031*WRSclip*' -type f)
+r_file=$(find ../paper_data/int_products/ -name 'p013r031*WRSclip*' -type f)
 
 for RASTERFILE in $r_file
 do
