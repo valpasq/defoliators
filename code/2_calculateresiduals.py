@@ -4,7 +4,7 @@ from osgeo import gdal, gdal_array
 import pandas as pd
 
 # Read in CSV with dataset locations
-img_list = pd.read_csv('/projectnb/landsat/projects/Massachusetts/Moths/paper_data/moths_datasets_0414.csv')
+img_list = pd.read_csv('../config/moths_datasets_0515.csv')
 
 for img_id in img_list.index:
 
