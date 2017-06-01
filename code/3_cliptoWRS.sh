@@ -19,7 +19,7 @@ EXTENT=`echo $EXTENT | awk -F ',' '{print $1 " " $4 " " $3 " " $2}'`
 
 echo "Shapefile: $SHPFILE1"
 
-r_file=$(find ../paper_data/int_products/ 'p012r031*standardized*' -type f)
+r_file=$(find ../paper_data/int_products/ -name 'p012r031*standardized*' -type f)
 
 for RASTERFILE in $r_file
 do
