@@ -18,8 +18,7 @@ cd $here
 predictdate=$2
 
 # Specify YATSM results directory
-#run="moths_paper_3"
-run="moths_0414"
+run=$3
 
 # Specify results prefix to use
 prefix="ols"
