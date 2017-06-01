@@ -50,7 +50,7 @@ for img_id in img_list.index:
 
 	# Write out raw residuals: Greenness
 	in_ds = gdal.Open(img_obs_fn, gdal.GA_ReadOnly)
-	output_fn = '../paper_data/int_products/{WRS2}_{date}_diff_G_0515.tif'.format(date=date, WRS2=WRS2)
+	output_fn = '../paper_data/int_products/{WRS2}_{date}_diff_G_raw_0515.tif'.format(date=date, WRS2=WRS2)
 
 	out_driver = gdal.GetDriverByName("GTiff")
 	out_ds = out_driver.Create(output_fn, 
