@@ -14,11 +14,11 @@ fi
 here=$1
 cd $here
 
-# Date to extract coefficients for
-date=2010-07-01
+# Date to extract coefficients for (e.g.2010-07-01)
+date=$2
 
-# Specify YATSM results directory
-run="moths_0414"
+# Specify YATSM results directory name
+run=$3
 
 # Band 9 - TCG
 yatsm -v map --band 9 \
