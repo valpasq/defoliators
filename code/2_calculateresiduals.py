@@ -4,7 +4,8 @@ from osgeo import gdal, gdal_array
 import pandas as pd
 
 # Read in CSV with dataset locations
-img_list = pd.read_csv('../config/moths_datasets_2016.csv')
+img_list = pd.read_csv('./config/moths_datasets_2017.csv')
+img_list.dropna(axis=0, how='any', inplace=True)
 
 for img_id in img_list.index:
 
@@ -42,15 +43,15 @@ for img_id in img_list.index:
 	diff_G_stand = (obs_G - pred_G) / rmse_G # divide by RMSE
 
 	# Mask clouds, shadows, snow, nodata
-	diff_G[obs_mask > 0] = -9999
+	diff_G[(obs_mask != 672) & (obs_mask != 2720)] = -9999
 	diff_G[diff_G < -9999] = -9999
 
-	diff_G_stand[obs_mask > 0] = -9999
+	diff_G_stand[(obs_mask != 672) & (obs_mask != 2720)] = -9999
 	diff_G_stand[diff_G < -9999] = -9999
 
 	# Write out raw residuals: Greenness
 	in_ds = gdal.Open(img_obs_fn, gdal.GA_ReadOnly)
-	output_fn = '../paper_data/int_products/{WRS2}_{date}_diff_G_raw_0515.tif'.format(date=date, WRS2=WRS2)
+	output_fn = './2017_analysis/int_products/{WRS2}_{date}_diff_G_raw_0515.tif'.format(date=date, WRS2=WRS2)
 
 	out_driver = gdal.GetDriverByName("GTiff")
 	out_ds = out_driver.Create(output_fn, 
@@ -68,7 +69,7 @@ for img_id in img_list.index:
 
 	# Write out standardized residuals: Greenness
 	in_ds = gdal.Open(img_obs_fn, gdal.GA_ReadOnly)
-	output_fn = '../paper_data/int_products/{WRS2}_{date}_diff_G_standardized_0515.tif'.format(date=date, WRS2=WRS2)
+	output_fn = './2017_analysis/int_products/{WRS2}_{date}_diff_G_standardized_0515.tif'.format(date=date, WRS2=WRS2)
 
 	out_driver = gdal.GetDriverByName("GTiff")
 	out_ds = out_driver.Create(output_fn, 
