@@ -16,7 +16,7 @@ for img_id in img_list.index:
 
 	# Read in observed image
 	img_obs_fn = img_list['img_obs_fn'][img_id]
-	img_obs_fn = img_obs_fn[1::]
+	img_obs_fn = img_obs_fn
 	#import pdb; pdb.set_trace()
 
 	with rasterio.open(img_obs_fn) as image:
@@ -26,7 +26,7 @@ for img_id in img_list.index:
 
 	# Read in predicted image
 	img_pred_fn = img_list['img_pred_fn'][img_id]
-	img_pred_fn = img_pred_fn[1::]
+	img_pred_fn = img_pred_fn
 
 	with rasterio.open(img_pred_fn) as image:
 	    pred_ds = image.read()
@@ -34,7 +34,7 @@ for img_id in img_list.index:
 
 	# Read in RMSE
 	rmse_G_fn = img_list['rmse_G'][img_id]
-	rmse_G_fn = rmse_G_fn[1::]
+	rmse_G_fn = rmse_G_fn
 
 	with rasterio.open(rmse_G_fn) as image:
 	    rmse_G_ds = image.read()
