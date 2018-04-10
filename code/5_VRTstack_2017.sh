@@ -4,7 +4,6 @@
 #$ -N stack_dates
 #$ -j y
 
-
 echo "Stacking 2017"
 gdalbuildvrt -separate \
 /projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/final_products/2017_stack_diffG_standardized.vrt \
@@ -20,4 +19,14 @@ gdalbuildvrt -separate \
 /projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p013r031_2017-204_diff_G_standardized_0515_WRSclip_albers.tif \
 /projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p013r031_2017-212_diff_G_standardized_0515_WRSclip_albers.tif \
 /projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p012r031_2017-213_diff_G_standardized_0515_WRSclip_albers.tif \
-
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p013r031_2017-220_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p012r031_2017-221_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p013r031_2017-228_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p012r031_2017-229_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p013r031_2017-236_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p012r031_2017-237_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p013r031_2017-244_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p012r031_2017-245_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p013r031_2017-252_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p012r031_2017-253_diff_G_standardized_0515_WRSclip_albers.tif \
+/projectnb/landsat/projects/Massachusetts/defoliators/2017_analysis/int_products/p012r031_2017-261_diff_G_standardized_0515_WRSclip_albers.tif \
