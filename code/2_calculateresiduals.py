@@ -4,7 +4,7 @@ from osgeo import gdal, gdal_array
 import pandas as pd
 
 # Read in CSV with dataset locations
-img_list = pd.read_csv('./config/moths_datasets_2017.csv')
+img_list = pd.read_csv('./2015_reanalysis_config.csv')
 img_list.dropna(axis=0, how='any', inplace=True)
 
 for img_id in img_list.index:
@@ -16,6 +16,8 @@ for img_id in img_list.index:
 
 	# Read in observed image
 	img_obs_fn = img_list['img_obs_fn'][img_id]
+	img_obs_fn = img_obs_fn[1::]
+	#import pdb; pdb.set_trace()
 
 	with rasterio.open(img_obs_fn) as image:
 	    obs_ds = image.read()
@@ -24,6 +26,7 @@ for img_id in img_list.index:
 
 	# Read in predicted image
 	img_pred_fn = img_list['img_pred_fn'][img_id]
+	img_pred_fn = img_pred_fn[1::]
 
 	with rasterio.open(img_pred_fn) as image:
 	    pred_ds = image.read()
@@ -31,6 +34,7 @@ for img_id in img_list.index:
 
 	# Read in RMSE
 	rmse_G_fn = img_list['rmse_G'][img_id]
+	rmse_G_fn = rmse_G_fn[1::]
 
 	with rasterio.open(rmse_G_fn) as image:
 	    rmse_G_ds = image.read()
@@ -51,14 +55,14 @@ for img_id in img_list.index:
 
 	# Write out raw residuals: Greenness
 	in_ds = gdal.Open(img_obs_fn, gdal.GA_ReadOnly)
-	output_fn = './2017_analysis/int_products/{WRS2}_{date}_diff_G_raw_0515.tif'.format(date=date, WRS2=WRS2)
+	output_fn = '../int_products/{WRS2}_{date}_TCG_raw.tif'.format(date=date, WRS2=WRS2)
 
 	out_driver = gdal.GetDriverByName("GTiff")
 	out_ds = out_driver.Create(output_fn, 
 	                           diff_G.shape[1],  # x size
 	                           diff_G.shape[0],  # y size
 	                           1,  # number of bands
-	                           gdal.GDT_Int16)
+	                           gdal.GDT_Int32)
 	out_ds.SetProjection(in_ds.GetProjection())
 	out_ds.SetGeoTransform(in_ds.GetGeoTransform())
 	out_ds.GetRasterBand(1).WriteArray(diff_G)
@@ -69,7 +73,7 @@ for img_id in img_list.index:
 
 	# Write out standardized residuals: Greenness
 	in_ds = gdal.Open(img_obs_fn, gdal.GA_ReadOnly)
-	output_fn = './2017_analysis/int_products/{WRS2}_{date}_diff_G_standardized_0515.tif'.format(date=date, WRS2=WRS2)
+	output_fn = '../int_products/{WRS2}_{date}_TCG_norm.tif'.format(date=date, WRS2=WRS2)
 
 	out_driver = gdal.GetDriverByName("GTiff")
 	out_ds = out_driver.Create(output_fn, 
