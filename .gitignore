@@ -1,0 +1,28 @@
+# IGNORE HUGE FILES #
+#####################
+*.gtif
+*.gtif.aux.xml
+*.tif
+*.tif.aux.xml
+
+# IGNORE LOGFILES #
+#######################
+/*.o*
+/code/*.o*
+
+# IGNORE IPYNB CHKPTS #
+#######################
+/.ipynb_checkpoints/*
+/code/.ipynb_checkpoints/*
+
+# IGNORE GIS #
+#######################
+/GIS/*
+
+# IGNORE SPECIFIC PROJECT FILES #
+#####################
+/_HWA/*
+/_ct_frag/*
+/_elk_plots/*
+/_quabbin/*
+
