@@ -28,14 +28,34 @@ if [ $n_mtl -eq 0 ]; then
     exit 1
 fi
 
-for mtl in $(find ./ -name 'L*MTL.txt'); do
-	echo $mtl
-    id=$(basename $(dirname $mtl))
-    echo $id
-    pred=$(grep "DATE_ACQUIRED" $mtl | tr -d ' ' | awk -F '=' '{ print $2 }')
-    echo $pred
+# List of scenes
+WRS2=['011031','012030','012031','013030','013031']
+for scene in WRS2; do
+    for mtl in $(find ./ -name L*${WRS2}*MTL.txt); do
 
-    # Map predictions
-    yatsm -v map --result ./YATSM_${run}/ --before --refit_prefix $prefix predict $pred ./${id}/${id}_prediction.tif
+        # Get file names and date for prediction
+        id=$(basename $(dirname $mtl))
+        pred=$(grep "DATE_ACQUIRED" $mtl | tr -d ' ' | awk -F '=' '{ print $2 }')
+        echo 'Working on...'
+        echo $id $pred
 
+        # Get path and row
+        path=$(grep "WRS_PATH" $mtl | head -1 | tr -d ' ' | awk -F '=' '{ print $2 }' )
+        row=$(grep "WRS_ROW" $mtl | head -1 | tr -d ' ' | awk -F '=' '{ print $2 }')  
+
+        # Check if L8 and adjust file name convention accordingly
+        l1t=$(grep "LANDSAT_8" $mtl)    
+        if [ "$l1t" == "" ]; then
+            #echo "$id is TM/ETM+"
+            WRS="p${path}r${row}" 
+        else
+            WRS="p0${path}r0${row}"
+        fi     
+             
+        # Map predictions
+        yatsm -v map --result /projectnb/landsat/projects/Massachusetts/defoliators/reanalysis/modeling/${WRS}/YATSM_${run}/ \
+        --image /projectnb/landsat/projects/Massachusetts/defoliators/reanalysis/modeling/${WRS}/example_img \
+        --before --refit_prefix $prefix predict $pred ./${id}/${id}_prediction.tif
+
+    done
 done
