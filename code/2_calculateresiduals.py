@@ -3,8 +3,10 @@ import rasterio
 from osgeo import gdal, gdal_array
 import pandas as pd
 
+# TODO: add CLI for config
+
 # Read in CSV with dataset locations
-img_list = pd.read_csv('./2015_reanalysis_config.csv')
+img_list = pd.read_csv('../2018-07-02_config_cc.csv')
 img_list.dropna(axis=0, how='any', inplace=True)
 
 for img_id in img_list.index:
